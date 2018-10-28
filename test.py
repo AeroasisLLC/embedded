@@ -22,21 +22,24 @@ def randomActuator():
 
 def testSend(count):
 	device = AWSInterface()
-	device.receiveData("sensor_data",printdata)
+	device.receiveData("dev_f2a682bc2da14f5bb7043ce5d18faa7f/task",printdata)
 
-	while count:
-		data = {}
-		data['sensor']=randomSensor()
-		data['actuator']=randomActuator()
-		device.sendData(data)
-		print("sending..")
-		time.sleep(2)
-		count-=1
+	while True:
+		# data = {}
+		# data['sensor']=randomSensor()
+		# data['actuator']=randomActuator()
+		# device.sendData(data)
+		# print("sending..")
+		# time.sleep(2)
+		# count-=1
+		print("waiting for server...")
+		time.sleep(10)
 
-fp = open('device_list.txt','r');
-devices = fp.readlines()
-fp.close()
-devices = [x.strip() for x in devices]
+# fp = open('device_list.txt','r');
+# devices = fp.readlines()
+# fp.close()
+# devices = [x.strip() for x in devices]
+devices = ["dev_f2a682bc2da14f5bb7043ce5d18faa7f"]
 
 for device in devices:
 	parser =SafeConfigParser()

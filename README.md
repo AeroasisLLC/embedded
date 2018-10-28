@@ -77,6 +77,7 @@
 * contain device info
 * wifi info
 * aws info
+* plant info
 
 
 
