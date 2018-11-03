@@ -1,4 +1,6 @@
-from lib import *
+import sys
+sys.path.append("..")
+from lib.lib import *
 
 def printdata(client, userdata, message):
 	print("received from server:")

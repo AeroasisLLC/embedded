@@ -7,5 +7,8 @@ import glob
 import datetime
 import json
 import math
-from embedded.log import logging
-from embedded.growCycle import GrowCycle
+import sys
+sys.path.append("..")
+from misc.log import logging
+from misc.helperFunc import *
+from growCycle import GrowCycle
