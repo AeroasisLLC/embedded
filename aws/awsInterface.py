@@ -1,13 +1,12 @@
 import sys
-sys.path.append("..")
-from lib.lib import *
-
+sys.path.insert(0, '../lib')
+from lib import *
 
 class AWSInterface():
 
     def __init__(self):
         parser = SafeConfigParser()
-        parser.read('device.conf')
+        parser.read('../config_files/device.conf')
         self.host = parser.get('device', 'host')
         self.port = int(parser.get('device', 'port'))
         self.clientId = parser.get('device', 'clientId')
@@ -17,7 +16,7 @@ class AWSInterface():
         self.privateKeyPath = parser.get('device', 'privateKeyPath')
         self.certificatePath = parser.get('device', 'certificatePath')
         self.growId = parser.get('grow', 'growId')
-        parser.read('plant.conf')
+        parser.read('../config_files/plant.conf')
         self.growStartDate = parser.get('PlantInfo', 'plantingDate')
         self.growStartDate = strtoDate(self.growStartDate)
         self.myAWSIoTMQTTClient = AWSIoTMQTTClient(self.clientId)

@@ -1,6 +1,6 @@
 import sys
-sys.path.append("..")
-from lib.lib import *
+sys.path.insert(0, '../lib')
+from lib import *
 
 def printdata(client, userdata, message):
 	print("received from server:")
@@ -24,16 +24,17 @@ def randomActuator():
 
 def testSend(count):
 	device = AWSInterface()
+	device.receiveData("sensor_data",printdata)
 	device.receiveData("dev_f2a682bc2da14f5bb7043ce5d18faa7f/task",printdata)
 
 	while True:
-		# data = {}
-		# data['sensor']=randomSensor()
-		# data['actuator']=randomActuator()
-		# device.sendData(data)
-		# print("sending..")
-		# time.sleep(2)
-		# count-=1
+		data = {}
+		data['sensor']=randomSensor()
+		data['actuator']=randomActuator()
+		device.sendData(data)
+		print("sending..")
+		time.sleep(2)
+		count-=1
 		print("waiting for server...")
 		time.sleep(10)
 
@@ -45,13 +46,13 @@ devices = ["dev_f2a682bc2da14f5bb7043ce5d18faa7f"]
 
 for device in devices:
 	parser =SafeConfigParser()
-	parser.read("device.conf")
+	parser.read("../config_files/device.conf")
 	parser['device']['clientId'] = device
-	parser['device']['privateKeyPath'] = "../keys/"+device+"_private.key"
-	parser['device']['certificatePath'] = "../keys/"+device+"_cert.pem"
+	parser['device']['privateKeyPath'] = "../../keys/"+device+"_private.key"
+	parser['device']['certificatePath'] = "../../keys/"+device+"_cert.pem"
 	device = device.split('_')
 	parser['device']['userId'] = "usr_"+device[1]
-	with open('device.conf','w') as configfile:
+	with open('../config_files/device.conf','w') as configfile:
 		parser.write(configfile)
 
 	testSend(5)
