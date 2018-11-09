@@ -36,7 +36,7 @@ def testSend(count):
 		time.sleep(2)
 		count-=1
 		print("waiting for server...")
-		time.sleep(10)
+		
 
 # fp = open('device_list.txt','r');
 # devices = fp.readlines()

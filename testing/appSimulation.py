@@ -3,8 +3,8 @@ from tkinter import *
 import requests
 import json
 
-device_id = "dev_f2a682bc2da14f5bb7043ce5d18faa7f"
-user_id = "usr_f2a682bc2da14f5bb7043ce5d18faa7f"
+device_id = "dev_ae1a34597bc14b0ea2c82700f91de6f4"
+user_id = "usr_ae1a34597bc14b0ea2c82700f91de6f4"
 plant_type = "1"
 PARAMS = { 	'user_id':user_id,
 			'device_id':device_id,

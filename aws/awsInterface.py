@@ -27,12 +27,22 @@ class AWSInterface():
         # Infinite offline Publish queueing
         self.myAWSIoTMQTTClient.configureOfflinePublishQueueing(-1)
         self.myAWSIoTMQTTClient.configureDrainingFrequency(2)  # Draining: 2 Hz
-        self.myAWSIoTMQTTClient.configureConnectDisconnectTimeout(10)  # 10 sec
-        self.myAWSIoTMQTTClient.configureMQTTOperationTimeout(5)  # 5 sec
-        if(self.myAWSIoTMQTTClient.connect()):
-            print("Connected successfully")
-        else:
-            print("Not Connected")
+        self.myAWSIoTMQTTClient.configureConnectDisconnectTimeout(20)  # 10 sec
+        self.myAWSIoTMQTTClient.configureMQTTOperationTimeout(20)  # 5 sec
+        while True:
+            try:
+                self.myAWSIoTMQTTClient.connect()
+            except Exception as e:
+                print(e)
+                print("Not connected...")
+                print("retrying in 5 seconds....")
+                time.sleep(5)
+                continue
+            else:
+                print("connected...")
+                break
+        
+        
 
     def receiveData(self, topic, func):
         self.myAWSIoTMQTTClient.subscribe(topic, 1, func)
@@ -41,10 +51,15 @@ class AWSInterface():
         packet = self.makePacket(data)
         try:
             self.myAWSIoTMQTTClient.publish(self.topic, packet, 1)
-            return True
         except Exception as e:
-            raise(e)
-            return False
+            print(e)
+            print("packet sending failed...")
+            print("packet sending into queue here after....")
+
+        else:
+            print("packet sent successfully...")
+
+       
 
     def makePacket(self, data):
         packet = {}
