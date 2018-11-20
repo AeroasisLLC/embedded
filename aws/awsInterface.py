@@ -30,33 +30,44 @@ class AWSInterface():
         self.myAWSIoTMQTTClient.configureConnectDisconnectTimeout(20)  # 10 sec
         self.myAWSIoTMQTTClient.configureMQTTOperationTimeout(20)  # 5 sec
         while True:
+            
             try:
+                self.logger.debug('Trying to connect to aws..')
                 self.myAWSIoTMQTTClient.connect()
             except Exception as e:
+                self.logger.warning('Not connected to aws..')
+                self.logger.warning(e)
                 print(e)
                 print("Not connected...")
                 print("retrying in 5 seconds....")
                 time.sleep(5)
                 continue
             else:
+                self.logger.debug('connected to aws..')
                 print("connected...")
                 break
         
         
 
     def receiveData(self, topic, func):
+        self.logger.debug('subscribed to topic -- %s, activated callback function %s',topic,func)
         self.myAWSIoTMQTTClient.subscribe(topic, 1, func)
 
     def sendData(self, data):
         packet = self.makePacket(data)
         try:
+            self.logger.debug('Trying to send data to aws..')
             self.myAWSIoTMQTTClient.publish(self.topic, packet, 1)
         except Exception as e:
+            self.logger.warning('packet send to aws failed..')
+            self.logger.warning(e)
+            self.logger.debug('packet sending into queue here after')
             print(e)
             print("packet sending failed...")
             print("packet sending into queue here after....")
 
         else:
+            self.logger.debug('packet sent to aws sucessfull')
             print("packet sent successfully...")
 
        
